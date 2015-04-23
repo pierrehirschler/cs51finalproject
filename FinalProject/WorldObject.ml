@@ -63,6 +63,8 @@ object (self)
   method get_status = "wa"
 
   method get_pos = pos
+  
+  method get_gen = 0
 
   method drawalive = self#draw_circle Graphics.black Graphics.black "" 
  

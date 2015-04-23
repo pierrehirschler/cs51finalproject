@@ -51,6 +51,7 @@ object
   method die : unit
   method switch_status: unit
   method get_status: string
+  method get_gen: int
   (** This event is called when the object is in danger. *)
   method get_danger_event : world_object_i Event.event
 
