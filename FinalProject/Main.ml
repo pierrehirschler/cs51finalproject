@@ -30,21 +30,23 @@ let part1_initializer () =
     in
     aux 0 0 ; 
 
-let fa = count_substring webhistory "facebook" in
-  let tw = count_substring webhistory "twitter" in
-    let tu = count_substring webhistory "tumblr" in
-      let insta = count_substring webhistory "instagram" in
+    let social_probability = 0 ref in
 
-  if (fa > tw && fa > insta && fa > tu) then social_probability = 100 
-  else if (tw > fa && tw > insta && tw > tu) then social_probability = 50
-  else if (tu > tw && tu > insta && tu > fa) then social_probability = 20
-  else if (insta > tw && insta > fa && insta > tu) then social_probability = 70; 
+    let fa = count_substring webhistory "facebook" in
+    let tw = count_substring webhistory "twitter" in
+    let tu = count_substring webhistory "tumblr" in
+    let insta = count_substring webhistory "instagram" in
+
+  if (fa > tw && fa > insta && fa > tu) then social_probability := 100 
+  else if (tw > fa && tw > insta && tw > tu) then social_probability := 50
+  else if (tu > tw && tu > insta && tu > fa) then social_probability := 20
+  else if (insta > tw && insta > fa && insta > tu) then social_probability := 70; 
 
   for x = 0 to World.size -1 do
     for y = 0 to World.size -1 do
       ignore (new Alive.alive (x,y));
       match World.get (x,y) with
-      |a::b -> Helpers.with_inv_probability World.rand social_probability  
+      |a::b -> Helpers.with_inv_probability World.rand !social_probability  
         (fun () -> a#switch_status; print_string (string_of_int(x));
         print_string (string_of_int(y)); flush_all();)
       |_ -> ()
@@ -73,13 +75,13 @@ let event_loop part () : unit =
 
 (* Parse command-line arguments. Returns the appropriate initialization
    function to run and the current part. *)
-let parse_args () : (unit -> unit) * int =
+let parse_args () : (unit -> unit)=
   let usage () = Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1 in
   if Array.length Sys.argv <> 3 then usage ();
-  Sys.argv(2) = anon ("webhistory" %: string)
+  Sys.argv(2) <- webhistory
   match Sys.argv.(2) with
   | if Not_found <> Str.search_forward Str.regexp "^[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$" "webhistory" 0
-    match Sys.argv.(1) with "part2" -> part1_initializer, 2
+    match Sys.argv.(1) with "part2" -> part1_initializer
   | _ -> usage ()
 
     
