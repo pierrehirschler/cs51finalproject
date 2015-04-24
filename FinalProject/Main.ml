@@ -1,6 +1,7 @@
 open Event
-open Command.Spec
+(* open Command.Spec *) 
 open Str 
+open Helpers
   
 (* populates the board *)
 (* 
@@ -15,27 +16,14 @@ print_string (string_of_int(y)); flush_all();)
 |_ -> ()
 done *)
   
-let part1_initializer () =
-  let website_counter url website =
-    let website_length = String.length website in
-    let length_difference = (String.length url) - website_length
-    and regular_website = Str.regexp_string website in
-  
-    let rec helper_counter position counter =
-    if position > length_difference then counter else
-      try
-        let new_position = Str.search_forward website url position in
-        helper_counter (new_position + website_length) counter++
-      with Not_found -> counter
-    in
-    aux 0 0 ; 
+let part1_initializer () = 
+    let social_probability : int ref = ref 0 in
 
-    let social_probability = 0 ref in
-
-    let fa = count_substring webhistory "facebook" in
-    let tw = count_substring webhistory "twitter" in
-    let tu = count_substring webhistory "tumblr" in
-    let insta = count_substring webhistory "instagram" in
+    (*let history = Sys.argv(2) in *)
+    let fa = Helpers.website_counter Sys.argv(2) "facebook" in
+    let tw = Helpers.website_conter Sys.argv(2) "twitter" in
+    let tu = Helpers.website_counter Sys.argv(2) "tumblr" in
+    let insta = Helpers.website_counter Sys.argv(2) "instagram" in
 
   if (fa > tw && fa > insta && fa > tu) then social_probability := 100 
   else if (tw > fa && tw > insta && tw > tu) then social_probability := 50
@@ -50,9 +38,8 @@ let part1_initializer () =
         (fun () -> a#switch_status; print_string (string_of_int(x));
         print_string (string_of_int(y)); flush_all();)
       |_ -> ()
-    done
+    done; 
   done
-in
 
 
 (* set_alive *)
@@ -77,12 +64,14 @@ let event_loop part () : unit =
    function to run and the current part. *)
 let parse_args () : (unit -> unit)=
   let usage () = Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1 in
-  if Array.length Sys.argv <> 3 then usage ();
-  Sys.argv(2) <- webhistory
-  match Sys.argv.(2) with
-  | if Not_found <> Str.search_forward Str.regexp "^[a-zA-Z0-9\-\.]+\.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$" "webhistory" 0
-    match Sys.argv.(1) with "part2" -> part1_initializer
-  | _ -> usage ()
+  if Array.length Sys.argv <> 3 then usage (); 
+  (*Sys.argv(2) = anon ("webhistory" %: string)*)
+  let webhistory = Sys.argv(2) in 
+  let standard =  Str.regexp "^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$" in
+  (* match Sys.argv(2) with *)
+  if Not_found <> Str.search_forward standard webhistory 0 then 
+    match Sys.argv(1) with "part2" -> part1_initializer
+  else usage ()
 
     
 let run () : unit =
