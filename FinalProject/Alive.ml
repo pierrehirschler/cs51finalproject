@@ -1,13 +1,15 @@
 open WorldObject
 open WorldObjectI
 
-class alive p: 
+class type alive_i =
 object
   inherit world_object_i
   method get_status : string
   method switch_status : unit
   method get_gen: int
-end =
+end
+
+class alive p: alive_i =  
 object (self)
     inherit world_object p as super
 

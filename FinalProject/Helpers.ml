@@ -60,3 +60,18 @@ let with_inv_probability (r:int->int) (p:int) (f:unit->unit) : unit =
 (** Call one of the functions in the list with equal probability. *)
 let with_equal_probability (r:int->int) (fs:(unit -> unit) list) : unit =
   (List.nth fs (r (List.length fs))) ()
+
+
+let website_counter url website =
+    let website_length = String.length website in
+    let website_exp = Str.regexp website in 
+    let length_difference = (String.length url) - website_length
+      and regular_website = Str.regexp_string website in  
+    let rec helper_counter position counter =
+    if position > length_difference then counter else
+      try
+        let new_position = Str.search_forward website_exp url position in
+        helper_counter (new_position + website_length) (counter+1)
+      with Not_found -> counter
+    in
+    helper_counter 0 0 
