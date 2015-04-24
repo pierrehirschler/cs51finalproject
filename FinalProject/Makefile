@@ -16,6 +16,7 @@ CAMLFLAGS = -g
 
 # Source and Object files
 SOURCES = \
+	Alive.ml Dead.ml \
 	Direction.ml Draw.ml Helpers.ml \
 	Event.ml \
 	WorldObjectI.ml World.ml WorldObject.ml \

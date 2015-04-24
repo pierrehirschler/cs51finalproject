@@ -4,7 +4,7 @@ open Event
 (***** UI State *****)
 (********************)
 
-let delay = ref 100
+let delay = ref 1000
 let counter = ref 100
 let inc_counter () =
   incr counter ;
