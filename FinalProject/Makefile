@@ -7,7 +7,7 @@ PROG = conway
 LIBS = \
 	graphics.cma
 
-CAMLC = ocamlc
+CAMLC = ocamlc str.cma Helpers.ml Main.ml
 CAMLDOC = ocamldoc
 CAMLFLAGS = -g
 
