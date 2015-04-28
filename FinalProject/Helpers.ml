@@ -1,6 +1,7 @@
 (** A package of generic and useful helper functions. *)
 exception TODO
 
+
 (*************************)
 (***** Array Helpers *****)
 (*************************)
@@ -62,16 +63,31 @@ let with_equal_probability (r:int->int) (fs:(unit -> unit) list) : unit =
   (List.nth fs (r (List.length fs))) ()
 
 
-let website_counter url website =
+let website_counter (url: string) (website:string): int =
     let website_length = String.length website in
-    let website_exp = Str.regexp website in 
-    let length_difference = (String.length url) - website_length
-      and regular_website = Str.regexp_string website in  
+    let regular_website = Str.regexp website in
+    let length_difference = (String.length url) - website_length in
+     (*  and regular_website = Str.regexp_string website in *)  
     let rec helper_counter position counter =
     if position > length_difference then counter else
       try
-        let new_position = Str.search_forward website_exp url position in
+        let new_position = Str.search_forward regular_website  url position in
         helper_counter (new_position + website_length) (counter+1)
       with Not_found -> counter
     in
     helper_counter 0 0 
+
+(*
+let social_probability (url: string array -> int -> string) (website:string): int = 
+  let website_length = String.length website in
+  let regular_website = Str.regexp website in
+  let length_difference = (String.length url) - website_length in
+     (*  and regular_website = Str.regexp_string website in *)  
+  let rec helper_counter position counter =
+    if position > length_difference then counter else
+      try
+        let new_position = Str.search_forward regular_website  url position in
+        helper_counter (new_position + website_length) (counter+1)
+      with Not_found -> counter
+    in
+    helper_counter 0 0 *)
