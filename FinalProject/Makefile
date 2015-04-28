@@ -1,6 +1,6 @@
 # This program
 
-PROG = cows
+PROG = conway
 
 # Setup
 
