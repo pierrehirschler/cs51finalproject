@@ -1,13 +1,13 @@
 # This program
 
-PROG = cows
+PROG = conway
 
 # Setup
 
 LIBS = \
 	graphics.cma
 
-CAMLC = ocamlc str.cma Helpers.ml Main.ml
+CAMLC = ocamlc str.cma
 CAMLDOC = ocamldoc
 CAMLFLAGS = -g
 
@@ -20,7 +20,7 @@ SOURCES = \
 	Event.ml \
 	WorldObjectI.ml World.ml WorldObject.ml \
 	Alive.ml \
-	UI.ml Main.ml \
+	UI.ml Main.ml
 
 OBJECTS = $(SOURCES:.ml=.cmo)
 

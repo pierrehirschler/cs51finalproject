@@ -1,7 +1,7 @@
+open Str
 open Event
-open Str 
-open Helpers
-
+open WorldObject
+open WorldObjectI
   
 (* populates the board *)
 (* 
@@ -46,23 +46,23 @@ let part1_initializer () =
         print_string (string_of_int(y)); flush_all();)
       |_ -> ()
     done 
-  done 
-
+  done
 
 (* set_alive *)
 	
 (* Function that is called continuously while the simulation is running. *)
 let event_loop part () : unit =
   Graphics.clear_graph () ;
-  if part >= 2 then Event.fire_event World.action_event () ;print_string ("fired"); flush_all();
+  if part >= 2 then
+    Event.fire_event World.action_event (); print_string ("fired"); flush_all();
   (* draw loop *)
   begin
-  for x = 0 to World.size -1 do
-    for y = 0 to World.size -1 do
-      List.iter (fun w -> w#drawalive) 
-      (List.filter (fun x -> x#get_status = "alive") (World.get (x,y)))
-    done 
-  done
+    for x = 0 to World.size -1 do
+      for y = 0 to World.size -1 do
+	List.iter (fun w -> w#drawalive)
+	  (List.filter (fun x -> x#get_status = "alive") (World.get (x,y)))
+      done 
+    done
   end
 
 
@@ -70,8 +70,8 @@ let event_loop part () : unit =
 (* Parse command-line arguments. Returns the appropriate initialization
    function to run and the current part. *)
 let parse_args () : (unit -> unit) * int =
-  let usage () = Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1 in
-  if Array.length Sys.argv <> 3 then usage (); 
+  let usage () = (Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1) in
+  if Array.length Sys.argv <> 3 then usage ();
   (*let standard =  Str.regexp " ^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$"  match Sys.argv(2) with
   let webhistory = Sys.argv(2);*)
  (* if Not_found <> Str.search_forward standard Sys.argv.(2) 0 then *)
@@ -79,7 +79,6 @@ let parse_args () : (unit -> unit) * int =
   |"part2" -> part1_initializer, 2
   | _ -> usage ()
 
-    
 let run () : unit =
   let initialize, part = parse_args () in
   UI.run_world initialize (event_loop part)

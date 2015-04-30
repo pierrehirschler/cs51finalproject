@@ -76,7 +76,6 @@ let website_counter (url: string) (website:string): int =
       with Not_found -> counter
     in
     helper_counter 0 0 
-
 (*
 let social_probability (url: string array -> int -> string) (website:string): int = 
   let website_length = String.length website in
