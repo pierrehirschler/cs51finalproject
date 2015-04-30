@@ -1,7 +1,7 @@
 open Event
-(* open Command.Spec *) 
 open Str 
 open Helpers
+
   
 (* populates the board *)
 (* 
@@ -15,20 +15,27 @@ match World.get (x,y) with
 print_string (string_of_int(y)); flush_all();)
 |_ -> ()
 done *)
+
   
 let part1_initializer () = 
-    let social_probability : int ref = ref 0 in
+    
+  (* let new_website = Sys.argv(2); *)
+  let social_probability : int ref = ref 50 in 
 
-    (*let history = Sys.argv(2) in *)
-    let fa = Helpers.website_counter Sys.argv(2) "facebook" in
-    let tw = Helpers.website_conter Sys.argv(2) "twitter" in
-    let tu = Helpers.website_counter Sys.argv(2) "tumblr" in
-    let insta = Helpers.website_counter Sys.argv(2) "instagram" in
+  let new_website = Sys.argv.(2) in 
+
+  let fa = Helpers.website_counter Sys.argv.(2)  "facebook" in
+  let tw = Helpers.website_counter new_website "twitter" in 
+  let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
+  let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
 
   if (fa > tw && fa > insta && fa > tu) then social_probability := 100 
   else if (tw > fa && tw > insta && tw > tu) then social_probability := 50
   else if (tu > tw && tu > insta && tu > fa) then social_probability := 20
-  else if (insta > tw && insta > fa && insta > tu) then social_probability := 70; 
+  else  social_probability := 70; 
+(* Sort elements in a list *)
+  (*if fa = 1 then social_probability := 100
+  else  social_probability := 50;*)
 
   for x = 0 to World.size -1 do
     for y = 0 to World.size -1 do
@@ -38,8 +45,8 @@ let part1_initializer () =
         (fun () -> a#switch_status; print_string (string_of_int(x));
         print_string (string_of_int(y)); flush_all();)
       |_ -> ()
-    done; 
-  done
+    done 
+  done 
 
 
 (* set_alive *)
@@ -54,7 +61,7 @@ let event_loop part () : unit =
     for y = 0 to World.size -1 do
       List.iter (fun w -> w#drawalive) 
       (List.filter (fun x -> x#get_status = "alive") (World.get (x,y)))
-    done
+    done 
   done
   end
 
@@ -62,16 +69,15 @@ let event_loop part () : unit =
 
 (* Parse command-line arguments. Returns the appropriate initialization
    function to run and the current part. *)
-let parse_args () : (unit -> unit)=
+let parse_args () : (unit -> unit) * int =
   let usage () = Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1 in
   if Array.length Sys.argv <> 3 then usage (); 
-  (*Sys.argv(2) = anon ("webhistory" %: string)*)
-  let webhistory = Sys.argv(2) in 
-  let standard =  Str.regexp "^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$" in
-  (* match Sys.argv(2) with *)
-  if Not_found <> Str.search_forward standard webhistory 0 then 
-    match Sys.argv(1) with "part2" -> part1_initializer
-  else usage ()
+  (*let standard =  Str.regexp " ^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$"  match Sys.argv(2) with
+  let webhistory = Sys.argv(2);*)
+ (* if Not_found <> Str.search_forward standard Sys.argv.(2) 0 then *)
+  match Sys.argv.(1) with 
+  |"part2" -> part1_initializer, 2
+  | _ -> usage ()
 
     
 let run () : unit =
