@@ -1,13 +1,7 @@
+open Str
 open Event
-<<<<<<< HEAD
-(* open Command.Spec *) 
-open Str 
-open Helpers
-=======
-open Str 
-open Helpers
-
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
+open WorldObject
+open WorldObjectI
   
 (* populates the board *)
 (* 
@@ -24,15 +18,6 @@ done *)
 
   
 let part1_initializer () = 
-<<<<<<< HEAD
-    let social_probability : int ref = ref 0 in
-
-    (*let history = Sys.argv(2) in *)
-    let fa = Helpers.website_counter Sys.argv(2) "facebook" in
-    let tw = Helpers.website_conter Sys.argv(2) "twitter" in
-    let tu = Helpers.website_counter Sys.argv(2) "tumblr" in
-    let insta = Helpers.website_counter Sys.argv(2) "instagram" in
-=======
     
   (* let new_website = Sys.argv(2); *)
   let social_probability : int ref = ref 50 in 
@@ -43,7 +28,6 @@ let part1_initializer () =
   let tw = Helpers.website_counter new_website "twitter" in 
   let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
   let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
 
   if (fa > tw && fa > insta && fa > tu) then social_probability := 100 
   else if (tw > fa && tw > insta && tw > tu) then social_probability := 50
@@ -61,29 +45,24 @@ let part1_initializer () =
         (fun () -> a#switch_status; print_string (string_of_int(x));
         print_string (string_of_int(y)); flush_all();)
       |_ -> ()
-<<<<<<< HEAD
-    done; 
-  done
-=======
     done 
-  done 
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
-
+  done
 
 (* set_alive *)
 	
 (* Function that is called continuously while the simulation is running. *)
 let event_loop part () : unit =
   Graphics.clear_graph () ;
-  if part >= 2 then Event.fire_event World.action_event () ;print_string ("fired"); flush_all();
+  if part >= 2 then
+    Event.fire_event World.action_event (); print_string ("fired"); flush_all();
   (* draw loop *)
   begin
-  for x = 0 to World.size -1 do
-    for y = 0 to World.size -1 do
-      List.iter (fun w -> w#drawalive) 
-      (List.filter (fun x -> x#get_status = "alive") (World.get (x,y)))
-    done 
-  done
+    for x = 0 to World.size -1 do
+      for y = 0 to World.size -1 do
+	List.iter (fun w -> w#drawalive)
+	  (List.filter (fun x -> x#get_status = "alive") (World.get (x,y)))
+      done 
+    done
   end
 
 
@@ -91,26 +70,15 @@ let event_loop part () : unit =
 (* Parse command-line arguments. Returns the appropriate initialization
    function to run and the current part. *)
 let parse_args () : (unit -> unit) * int =
-  let usage () = Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1 in
-  if Array.length Sys.argv <> 3 then usage (); 
-<<<<<<< HEAD
-  (*Sys.argv(2) = anon ("webhistory" %: string)*)
-  let webhistory = Sys.argv(2) in 
-  let standard =  Str.regexp "^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$" in
-  (* match Sys.argv(2) with *)
-  if Not_found <> Str.search_forward standard webhistory 0 then 
-    match Sys.argv(1) with "part2" -> part1_initializer
-  else usage ()
-=======
+  let usage () = (Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1) in
+  if Array.length Sys.argv <> 3 then usage ();
   (*let standard =  Str.regexp " ^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$"  match Sys.argv(2) with
   let webhistory = Sys.argv(2);*)
  (* if Not_found <> Str.search_forward standard Sys.argv.(2) 0 then *)
   match Sys.argv.(1) with 
   |"part2" -> part1_initializer, 2
   | _ -> usage ()
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
 
-    
 let run () : unit =
   let initialize, part = parse_args () in
   UI.run_world initialize (event_loop part)

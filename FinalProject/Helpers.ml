@@ -63,17 +63,6 @@ let with_equal_probability (r:int->int) (fs:(unit -> unit) list) : unit =
   (List.nth fs (r (List.length fs))) ()
 
 
-<<<<<<< HEAD
-let website_counter url website =
-    let website_length = String.length website in
-    let website_exp = Str.regexp website in 
-    let length_difference = (String.length url) - website_length
-      and regular_website = Str.regexp_string website in  
-    let rec helper_counter position counter =
-    if position > length_difference then counter else
-      try
-        let new_position = Str.search_forward website_exp url position in
-=======
 let website_counter (url: string) (website:string): int =
     let website_length = String.length website in
     let regular_website = Str.regexp website in
@@ -83,14 +72,10 @@ let website_counter (url: string) (website:string): int =
     if position > length_difference then counter else
       try
         let new_position = Str.search_forward regular_website  url position in
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
         helper_counter (new_position + website_length) (counter+1)
       with Not_found -> counter
     in
     helper_counter 0 0 
-<<<<<<< HEAD
-=======
-
 (*
 let social_probability (url: string array -> int -> string) (website:string): int = 
   let website_length = String.length website in
@@ -105,4 +90,3 @@ let social_probability (url: string array -> int -> string) (website:string): in
       with Not_found -> counter
     in
     helper_counter 0 0 *)
->>>>>>> e8c1077deb6baacc6752d978b0902436eb703ec2
