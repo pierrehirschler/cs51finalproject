@@ -4,18 +4,6 @@ open WorldObject
 open WorldObjectI
   
 (* populates the board *)
-(* 
-let set_alive () =
-for c = 0 to 1 do
-let x = Random.int World.size in
-let y = Random.int World.size in
-match World.get (x,y) with
-|a::b -> Helpers.with_inv_probability World.rand 5 
-(fun () -> a#switch_status; print_string (string_of_int(x));
-print_string (string_of_int(y)); flush_all();)
-|_ -> ()
-done *)
-
   
 let part1_initializer () = 
     
