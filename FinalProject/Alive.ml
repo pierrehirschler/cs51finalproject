@@ -15,17 +15,21 @@ object (self)
 
 val mutable name = "dead"
 val mutable gen = 0
+val mutable len = 0
 
 initializer (self#register_handler World.action_event self#check_neighbor)
+initializer (self#register_handler World.switch_event self#switch)
 
 method private check_neighbor () = 
 if gen = 0 then () else
 print_string ("checked"); flush_all();
-let len = List.length (List.filter (fun x -> x#get_status = "alive") 
-(World.objects_within_range self#get_pos 1)) in 
+len <- (List.length (List.filter (fun x -> x#get_status = "alive") 
+(World.objects_within_range self#get_pos 1)));
+
+method private switch () =
 match name with
-|"alive" -> ( if len - 1 < 2 || len - 1 > 3 then name <- "dead"; gen <- gen + 1)
-|"dead" -> ( if len - 1 = 3 then name <- "alive";  gen <- gen + 1)
+|"alive" -> ( if len -1 < 2 || len - 1 > 3 then name <- "dead"; gen <- gen + 1)
+|"dead" -> ( if len  = 3 then name <- "alive";  gen <- gen + 1)
 | _ -> failwith "Invalid neighbor name"
 
 method get_status = name
