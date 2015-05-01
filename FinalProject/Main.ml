@@ -7,8 +7,9 @@ open WorldObjectI
   
 let part1_initializer () = 
     
-  (* let new_website = Sys.argv(2); *)
-  let social_probability : int ref = ref 5 in 
+  (* initiates the variable that will define the probability of a cell 
+     being alive *)
+  let social_probability : int ref = ref ((Random.int 20) + 13) in 
 
   let new_website = Sys.argv.(2) in
 
@@ -22,7 +23,16 @@ let part1_initializer () =
   
   let sum_site = fa + tw + tu + insta in 
   let sum_tag = hastag + tags + search in 
-  
+
+  let site_counter = 0 in  
+  while site_counter <= 100 do 
+    if sum_site > n then 
+      social_probability := !social_probability - 1 
+    else  social_probability := !social_probability + 0
+    site_counter = site_counter + 10
+  done 
+
+  (*
   if sum_site > 100 then social_probability := (Random.int 3 + 1)
   else if sum_site > 75 && sum_site <= 100 then social_probability
     := (Random.int 4 + 1)
@@ -34,10 +44,12 @@ let part1_initializer () =
     := (Random.int 7 + 1)
   else if sum_site > 5 && sum_site <= 10 then social_probability
     := (Random.int 7 + 1)
-  else social_probability := (Random.int 9 + 1);
+  else social_probability := (Random.int 9 + 1); *)
   
-  if sum_tag >= (sum_site / 2) then social_probability := 
-    (!social_probability - 1)
+  if sum_tag >= (sum_site / 2) then 
+    if (!social_probability mod 2 == 0) then 
+      social_probability := !social_probability / 2
+    else social_probability := (!social_probability + 1) / 2; 
   else social_probability := !social_probability + 0;
 
   (*if (fa > tw && fa > insta && fa > tu) then social_probability := 6 
