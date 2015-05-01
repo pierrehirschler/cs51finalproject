@@ -9,7 +9,7 @@ let part1_initializer () =
   
   (* initiates the variable that will define the probability of a cell 
      being alive *)
-  let social_probability : int ref = ref 14  in 
+  let social_probability : int ref = ref 15  in 
   
   (* puts the user web history into the variable new_website by indexing 
   into array*)
@@ -36,16 +36,18 @@ let part1_initializer () =
   let site_counter : int ref = ref 0 in 
  
   (* This function goes through the while loop, each time checking 
-  how many social media sites the user visited. If the amount of 
-  social media sites is greater than the continously increasing 
-  counter, then we decrease the probability by 1 (which will ultimately 
-  increase the probability of a cell appearing because we use inverse
-  probability to initiate the board )*)
+     how many social media sites the user visited. If the amount of 
+     social media sites is greater than the continously increasing 
+     counter, then we decrease the probability by a random integer between 1
+     and 20 (which will ultimately increase the probability of a cell appearing 
+     because we use inverse probability to initiate the board). The randomness
+     allows for a wider variety of board patterns and accounts for the 
+     variability in social media. *)
   let random () =  while !site_counter <= 100 do 
       if !sum_site > !site_counter then 
 	  social_probability := !social_probability - 1
       else  social_probability := !social_probability + 0; 
-    site_counter := !site_counter + 15;
+    site_counter := !site_counter + (Random.int 20);
     done  in
   
   (* Starts the function *)
