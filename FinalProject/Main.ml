@@ -49,7 +49,7 @@ let part1_initializer () =
    if sum_tag >= (sum_site / 2) then 
       (if !social_probability mod 2 == 0 then 
 	  social_probability := !social_probability / 2
-       else social_probability := (!social_probability + 1) / 2); 
+       else social_probability := (!social_probability + 1) / 2);
     
     
   (*if (fa > tw && fa > insta && fa > tu) then social_probability := 6 
@@ -89,8 +89,8 @@ let part1_initializer () =
 let event_loop part () : unit =
   Graphics.clear_graph () ;
   if part >= 2 then
-    Event.fire_event World.action_event (); print_string ("fired"); flush_all();
-    Event.fire_event World.switch_event (); print_string ("switch"); flush_all();
+    Event.fire_event World.action_event ();
+    Event.fire_event World.switch_event ();
   (* draw loop *)
   begin
     for x = 0 to World.size -1 do

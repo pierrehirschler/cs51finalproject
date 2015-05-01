@@ -22,7 +22,7 @@ initializer (self#register_handler World.switch_event self#switch)
 
 method private check_neighbor () = 
 if gen = 0 then () else
-print_string ("checked"); flush_all();
+flush_all();
 len <- (List.length (List.filter (fun x -> x#get_status = "alive") 
 (World.objects_within_range self#get_pos 1)));
 
