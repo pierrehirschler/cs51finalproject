@@ -10,6 +10,7 @@ let part1_initializer () =
   (* let new_website = Sys.argv(2); *)
   let social_probability : int ref = ref 5 in 
 
+  let new_website = Sys.argv.(2) in
 
   let fa = Helpers.website_counter new_website  "facebook" in
   let tw = Helpers.website_counter new_website "twitter" in 
