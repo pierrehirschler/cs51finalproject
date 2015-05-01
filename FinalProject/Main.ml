@@ -12,15 +12,39 @@ let part1_initializer () =
 
   let new_website = Sys.argv.(2) in 
 
-  let fa = Helpers.website_counter Sys.argv.(2)  "facebook" in
+  let fa = Helpers.website_counter new_website  "facebook" in
   let tw = Helpers.website_counter new_website "twitter" in 
-  let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
-  let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
+  let tu = Helpers.website_counter new_website "tumblr" in
+  let insta = Helpers.website_counter new_website "instagram" in
+  let hastag = Helpers.website_counter new_website "hashtag" in
+  let tags = Helpers.website_counter new_website "tags" in
+  let search = Helpers.website_counter new_website "search" in
+  
+  let sum_site = fa + tw + tu + insta in 
+  let sum_tag = hastag + tags + search in 
+  
+  if sum_site > 100 then social_probability := (Random.int 3 + 1)
+  else if sum_site > 75 && sum_site <= 100 then social_probability
+    := (Random.int 4 + 1)
+  else if sum_site > 50 && sum_site <= 75 then social_probability
+    := (Random.int 4 + 1)
+  else if sum_site > 25 && sum_site <= 50 then social_probability
+    := (Random.int 6 + 1)
+  else if sum_site > 10 && sum_site <= 25 then social_probability
+    := (Random.int 7 + 1)
+  else if sum_site > 5 && sum_site <= 10 then social_probability
+    := (Random.int 7 + 1)
+  else social_probability := (Random.int 9 + 1);
+  
+  if sum_tag >= (sum_site / 2) then social_probability := 
+    (!social_probability - 1)
+  else social_probability := !social_probability + 0;
 
-  if (fa > tw && fa > insta && fa > tu) then social_probability := 100 
-  else if (tw > fa && tw > insta && tw > tu) then social_probability := 50
-  else if (tu > tw && tu > insta && tu > fa) then social_probability := 20
-  else  social_probability := 70; 
+  (*if (fa > tw && fa > insta && fa > tu) then social_probability := 6 
+  else if (tw > fa && tw > insta && tw > tu) then social_probability := 5
+  else if (tu > tw && tu > insta && tu > fa) then social_probability := 4
+  else if (insta > tw && insta > tu && insta > fa) then social_probability := 3
+  else  social_probability := 10;*) 
 (* Sort elements in a list *)
   (*if fa = 1 then social_probability := 100
   else  social_probability := 50;*)
