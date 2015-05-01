@@ -105,9 +105,9 @@ let parse_args () : (unit -> unit) * int =
   let webhistory = Sys.argv(2);*)
  (* if Not_found <> Str.search_forward standard Sys.argv.(2) 0 then *)
   match Sys.argv.(1) with 
-  |"part2" -> part1_initializer, 2
+  |"run" -> part1_initializer, 2
   | _ -> usage ()
-
+ 
 let run () : unit =
   let initialize, part = parse_args () in
   UI.run_world initialize (event_loop part)
