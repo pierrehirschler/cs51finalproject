@@ -4,15 +4,15 @@ open WorldObject
 open WorldObjectI
   
 (* populates the board *)
-  
+
 let part1_initializer () = 
-    
+  
   (* initiates the variable that will define the probability of a cell 
      being alive *)
   let social_probability : int ref = ref ((Random.int 20) + 13) in 
 
   let new_website = Sys.argv.(2) in
-
+  
   let fa = Helpers.website_counter new_website  "facebook" in
   let tw = Helpers.website_counter new_website "twitter" in 
   let tu = Helpers.website_counter new_website "tumblr" in
@@ -23,66 +23,66 @@ let part1_initializer () =
   
   let sum_site = fa + tw + tu + insta in 
   let sum_tag = hastag + tags + search in 
-
+  
   let site_counter = 0 in  
-  while site_counter <= 100 do 
-    if sum_site > n then 
-      social_probability := !social_probability - 1 
-    else  social_probability := !social_probability + 0
-    site_counter = site_counter + 10
-  done 
-
+  let random () =  while site_counter <= 100 do 
+      if sum_site > site_counter then 
+	social_probability := !social_probability - 1 
+      else  social_probability := !social_probability + 0;
+    site_counter= site_counter + 10
+    done  in
+  
   (*
-  if sum_site > 100 then social_probability := (Random.int 3 + 1)
-  else if sum_site > 75 && sum_site <= 100 then social_probability
+    if sum_site > 100 then social_probability := (Random.int 3 + 1)
+    else if sum_site > 75 && sum_site <= 100 then social_probability
     := (Random.int 4 + 1)
-  else if sum_site > 50 && sum_site <= 75 then social_probability
+    else if sum_site > 50 && sum_site <= 75 then social_probability
     := (Random.int 4 + 1)
-  else if sum_site > 25 && sum_site <= 50 then social_probability
+    else if sum_site > 25 && sum_site <= 50 then social_probability
     := (Random.int 6 + 1)
-  else if sum_site > 10 && sum_site <= 25 then social_probability
+    else if sum_site > 10 && sum_site <= 25 then social_probability
     := (Random.int 7 + 1)
-  else if sum_site > 5 && sum_site <= 10 then social_probability
+    else if sum_site > 5 && sum_site <= 10 then social_probability
     := (Random.int 7 + 1)
   else social_probability := (Random.int 9 + 1); *)
-  
-  if sum_tag >= (sum_site / 2) then 
-    if (!social_probability mod 2 == 0) then 
-      social_probability := !social_probability / 2
-    else social_probability := (!social_probability + 1) / 2; 
-  else social_probability := !social_probability + 0;
-
+ 
+   if sum_tag >= (sum_site / 2) then 
+      (if !social_probability mod 2 == 0 then 
+	  social_probability := !social_probability / 2
+       else social_probability := (!social_probability + 1) / 2); 
+    
+    
   (*if (fa > tw && fa > insta && fa > tu) then social_probability := 6 
   else if (tw > fa && tw > insta && tw > tu) then social_probability := 5
-  else if (tu > tw && tu > insta && tu > fa) then social_probability := 4
-  else if (insta > tw && insta > tu && insta > fa) then social_probability := 3
-  else  social_probability := 10;*) 
-
-  let fa = Helpers.website_counter Sys.argv.(2)  "facebook" in
-  let tw = Helpers.website_counter Sys.argv.(2) "twitter" in 
-  let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
-  let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
-
-  if (fa > tw && fa > insta && fa > tu) then social_probability := 2
-  else if (tw > fa && tw > insta && tw > tu) then social_probability := 5
-  else if (tu > tw && tu > insta && tu > fa) then social_probability := 2
-  else  social_probability := 7; 
-
-(* Sort elements in a list *)
+    else if (tu > tw && tu > insta && tu > fa) then social_probability := 4
+    else if (insta > tw && insta > tu && insta > fa) then social_probability := 3
+    else  social_probability := 10;*) 
+    
+    let fa = Helpers.website_counter Sys.argv.(2)  "facebook" in
+    let tw = Helpers.website_counter Sys.argv.(2) "twitter" in 
+    let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
+    let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
+    
+    if (fa > tw && fa > insta && fa > tu) then social_probability := 2
+    else if (tw > fa && tw > insta && tw > tu) then social_probability := 5
+    else if (tu > tw && tu > insta && tu > fa) then social_probability := 2
+    else  social_probability := 7; 
+    
+  (* Sort elements in a list *)
   (*if fa = 1 then social_probability := 100
-  else  social_probability := 50;*)
-
-  for x = 0 to World.size -1 do
-    for y = 0 to World.size -1 do
-      ignore (new Alive.alive (x,y));
-      match World.get (x,y) with
-      |a::b -> Helpers.with_inv_probability World.rand !social_probability  
-        (fun () -> a#switch_status; print_string (string_of_int(x));
-        print_string (string_of_int(y)); flush_all();)
-      |_ -> ()
-    done 
-  done
-
+    else  social_probability := 50;*)
+    
+    for x = 0 to World.size -1 do
+      for y = 0 to World.size -1 do
+	ignore (new Alive.alive (x,y));
+	match World.get (x,y) with
+	|a::b -> Helpers.with_inv_probability World.rand !social_probability  
+          (fun () -> a#switch_status; print_string (string_of_int(x));
+            print_string (string_of_int(y)); flush_all();)
+	|_ -> ()
+      done 
+    done
+      
 (* set_alive *)
 	
 (* Function that is called continuously while the simulation is running. *)
