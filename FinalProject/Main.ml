@@ -10,11 +10,14 @@ let part1_initializer () =
   (* initiates the variable that will define the probability of a cell 
      being alive *)
   let social_probability : int ref = ref 14  in 
-
-  print_string(string_of_int(!social_probability));
   
+  (* puts the user web history into the variable new_website by indexing 
+  into array*)
   let new_website = Sys.argv.(2) in
   
+  (* These variables hold the amount of times a word was found in the 
+     use input string. We call the string parser website_counter
+     defined in Helpers to do this *)
   let fa = Helpers.website_counter new_website  "facebook" in
   let tw = Helpers.website_counter new_website "twitter" in 
   let tu = Helpers.website_counter new_website "tumblr" in
@@ -23,11 +26,21 @@ let part1_initializer () =
   let tags = Helpers.website_counter new_website "tags" in
   let search = Helpers.website_counter new_website "search" in
   
+  (* Sum_site determines how many social media platforms the user has
+  visited and sum_tag determines how often they searched what is 
+  trending *) 
   let sum_site : int ref = ref (fa + tw + tu + insta) in
   let sum_tag : int ref = ref (hastag + tags + search) in 
   
+  (* Initialized counter for the function random *)
   let site_counter : int ref = ref 0 in 
  
+  (* This function goes through the while loop, each time checking 
+  how many social media sites the user visited. If the amount of 
+  social media sites is greater than the continously increasing 
+  counter, then we decrease the probability by 1 (which will ultimately 
+  increase the probability of a cell appearing because we use inverse
+  probability to initiate the board )*)
   let random () =  while !site_counter <= 100 do 
       if !sum_site > !site_counter then 
 	  social_probability := !social_probability - 1
@@ -35,7 +48,11 @@ let part1_initializer () =
     site_counter := !site_counter + 15;
     done  in
   
+  (* Starts the function *)
   random (); 
+  
+  (* This print string is a test variable to make sure random is 
+  working. *)
   
   print_string(string_of_int(!social_probability));
   if !social_probability <= 2 then social_probability := 3 ;   
