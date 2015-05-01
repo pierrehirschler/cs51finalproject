@@ -164,7 +164,7 @@ let direction_from_to (p1:int*int) (p2:int*int) : Direction.direction option =
 let action_event : unit Event.event = Event.new_event ()
 
 (** Fires when objects should move. *)
-let move_event : unit Event.event = Event.new_event ()
+let switch_event : unit Event.event = Event.new_event ()
 
 (** Fires when objects should age. *)
 let age_event : unit Event.event = Event.new_event ()

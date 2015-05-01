@@ -8,9 +8,8 @@ open WorldObjectI
 let part1_initializer () = 
     
   (* let new_website = Sys.argv(2); *)
-  let social_probability : int ref = ref 50 in 
+  let social_probability : int ref = ref 5 in 
 
-  let new_website = Sys.argv.(2) in 
 
   let fa = Helpers.website_counter new_website  "facebook" in
   let tw = Helpers.website_counter new_website "twitter" in 
@@ -45,6 +44,17 @@ let part1_initializer () =
   else if (tu > tw && tu > insta && tu > fa) then social_probability := 4
   else if (insta > tw && insta > tu && insta > fa) then social_probability := 3
   else  social_probability := 10;*) 
+
+  let fa = Helpers.website_counter Sys.argv.(2)  "facebook" in
+  let tw = Helpers.website_counter Sys.argv.(2) "twitter" in 
+  let tu = Helpers.website_counter Sys.argv.(2) "tumblr" in
+  let insta = Helpers.website_counter Sys.argv.(2) "instagram" in
+
+  if (fa > tw && fa > insta && fa > tu) then social_probability := 2
+  else if (tw > fa && tw > insta && tw > tu) then social_probability := 5
+  else if (tu > tw && tu > insta && tu > fa) then social_probability := 2
+  else  social_probability := 7; 
+
 (* Sort elements in a list *)
   (*if fa = 1 then social_probability := 100
   else  social_probability := 50;*)
@@ -67,6 +77,7 @@ let event_loop part () : unit =
   Graphics.clear_graph () ;
   if part >= 2 then
     Event.fire_event World.action_event (); print_string ("fired"); flush_all();
+    Event.fire_event World.switch_event (); print_string ("switch"); flush_all();
   (* draw loop *)
   begin
     for x = 0 to World.size -1 do
