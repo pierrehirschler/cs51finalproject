@@ -52,20 +52,33 @@ let part1_initializer () =
   random (); 
   
   (* This print string is a test variable to make sure random is 
-  working. *)
-  
+  working. If any social media site was present, the value should be
+  less than 14. *)
+  print_string "Probability before trending: ";
   print_string(string_of_int(!social_probability));
+
+  (* We don't want social_probability to be too low otherwise too
+  many cells will be populated upon initiation.*)
   if !social_probability <= 2 then social_probability := 3 ;   
 
-  if (!social_probability mod 2 == 0) &&  (!sum_tag >= ((!sum_site + 1) / 2)) 
-  then social_probability := (!social_probability / 2) ; 
-  if (!social_probability mod 2 == 1)  &&  (!sum_tag >= ((!sum_site + 1) / 2)) then
-     social_probability := ((!social_probability + 1) / 2) ; 
-  
+  (* This if statement checks how often a user looked up trending
+  topics and compares it to their total social media presence. If this 
+  trending is large in comparison, we divide the probability by 2.*)
+  if !sum_tag >= (!sum_site + 1) / 2 
+    then social_probability := 
+    (!social_probability + (!social_probability mod 2)/ 2); 
+
+  (* Error checking. Prints values calculated in terminal to make sure that 
+  the final probability is calculated correctly. *)
+  print_string "Number of social media sites: "; 
   print_string(string_of_int(!sum_site));
-  print_string(string_of_int(!sum_tag)); 
+  print_string "Number of trending sites: ";
+  print_string(string_of_int(!sum_tag));
+  print_string "Final Probability: "; 
   print_string(string_of_int(!social_probability)); 
-        
+  
+  (* Creates the world. Each sell has 1/social_probability of being 
+     initially alive *)
     for x = 0 to World.size -1 do
       for y = 0 to World.size -1 do
 	ignore (new Alive.alive (x,y));
@@ -75,8 +88,7 @@ let part1_initializer () =
 	|_ -> ()
       done 
     done
-(* print_string (string_of_int(y)); *)   
-(* set_alive *)
+
 	
 (* Function that is called continuously while the simulation is running. *)
 let event_loop part () : unit =
@@ -94,16 +106,11 @@ let event_loop part () : unit =
     done
   end
 
-
-
 (* Parse command-line arguments. Returns the appropriate initialization
    function to run and the current part. *)
 let parse_args () : (unit -> unit) * int =
   let usage () = (Printf.printf "usage: %s argument\n" Sys.argv.(0); exit 1) in
   if Array.length Sys.argv <> 3 then usage ();
-  (*let standard =  Str.regexp " ^[a-zA-Z0-9-.]+.(com|org|net|mil|edu|COM|ORG|NET|MIL|EDU)$"  match Sys.argv(2) with
-  let webhistory = Sys.argv(2);*)
- (* if Not_found <> Str.search_forward standard Sys.argv.(2) 0 then *)
   match Sys.argv.(1) with 
   |"part2" -> part1_initializer, 2
   | _ -> usage ()
