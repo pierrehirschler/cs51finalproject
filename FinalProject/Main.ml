@@ -9,9 +9,10 @@ let part1_initializer () =
   
   (* initiates the variable that will define the probability of a cell 
      being alive *)
-  let social_probability : int ref = ref ((Random.int 12) + 8) in 
+  let social_probability : int ref = ref 14  in 
 
   print_string(string_of_int(!social_probability));
+  
   let new_website = Sys.argv.(2) in
   
   let fa = Helpers.website_counter new_website  "facebook" in
@@ -22,42 +23,30 @@ let part1_initializer () =
   let tags = Helpers.website_counter new_website "tags" in
   let search = Helpers.website_counter new_website "search" in
   
-  let sum_site = fa + tw + tu + insta in 
-  let sum_tag = hastag + tags + search in 
+  let sum_site : int ref = ref (fa + tw + tu + insta) in
+  let sum_tag : int ref = ref (hastag + tags + search) in 
   
-  let site_counter = 0 in 
+  let site_counter : int ref = ref 0 in 
  
-  let random () =  while site_counter <= 100 do 
-      if sum_site > site_counter then 
+  let random () =  while !site_counter <= 100 do 
+      if !sum_site > !site_counter then 
 	  social_probability := !social_probability - 1
       else  social_probability := !social_probability + 0; 
-    site_counter= site_counter + 10;
+    site_counter := !site_counter + 15;
     done  in
   
-  (*random ();;*) 
+  random (); 
   
-  if !social_probability <= 2 then social_probability := 3;;  
+  print_string(string_of_int(!social_probability));
+  if !social_probability <= 2 then social_probability := 3 ;   
 
-  (*
-    if sum_site > 100 then social_probability := (Random.int 3 + 1)
-    else if sum_site > 75 && sum_site <= 100 then social_probability
-    := (Random.int 4 + 1)
-    else if sum_site > 50 && sum_site <= 75 then social_probability
-    := (Random.int 4 + 1)
-    else if sum_site > 25 && sum_site <= 50 then social_probability
-    := (Random.int 6 + 1)
-    else if sum_site > 10 && sum_site <= 25 then social_probability
-    := (Random.int 7 + 1)
-    else if sum_site > 5 && sum_site <= 10 then social_probability
-    := (Random.int 7 + 1)
-  else social_probability := (Random.int 9 + 1); *)
- 
-   if sum_tag >= (sum_site / 2) then 
-      (if !social_probability mod 2 == 0 then 
-	  social_probability := !social_probability / 2
-	  (*print_string(string_of_int(!social_probability))*)
-       else social_probability := (!social_probability + 1) / 2);
+  if (!social_probability mod 2 == 0) &&  (!sum_tag >= ((!sum_site + 1) / 2)) 
+  then social_probability := (!social_probability / 2) ; 
+  if (!social_probability mod 2 == 1)  &&  (!sum_tag >= ((!sum_site + 1) / 2)) then
+     social_probability := ((!social_probability + 1) / 2) ; 
   
+  print_string(string_of_int(!sum_site));
+  print_string(string_of_int(!sum_tag)); 
   print_string(string_of_int(!social_probability)); 
         
     for x = 0 to World.size -1 do
